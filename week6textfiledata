@@ -1,0 +1,116 @@
+package com.example.week_6filelogin;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import java.util.Scanner;
+public class MainActivity extends AppCompatActivity {
+ EditText username, password;
+ Scanner data;
+ TextView dis;
+ String un, pass;
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ username = findViewById(R.id.username);
+ password = findViewById(R.id.password);
+ dis = findViewById(R.id.display);
+ }
+ public void onLogin(View V){
+ boolean flag = false;
+ data = new Scanner(getResources().openRawResource(R.raw.logindetails));
+ while(data.hasNext()){
+ String [] user = data.nextLine().split("\\s+");
+ un = user[0];
+ pass = user[1];
+ if(username.getText().toString().equals(un) &&
+password.getText().toString().equals(pass)){
+ flag = true;
+ break;
+ }
+ }
+ if(flag){
+ dis.setText("Login Success\nuser:\n"+ un +"\n"+pass);
+ new AlertDialog.Builder(MainActivity.this)
+ .setTitle("User Auth")
+ .setMessage("Login success.")
+ .setCancelable(false)
+ .setPositiveButton("ok", new DialogInterface.OnClickListener(){
+ @Override
+ public void onClick(DialogInterface dialog, int which){
+ dialog.cancel();
+ }
+ }).show();
+ }else{
+ dis.setText("Login Failed");
+ new AlertDialog.Builder(MainActivity.this)
+ .setTitle("User Auth")
+ .setMessage("Login failed.")
+ .setCancelable(false)
+ .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+ @Override
+ public void onClick(DialogInterface dialog, int which) {
+ dialog.cancel();
+ }
+ }).show();
+ }
+ }
+}
+Xml Code:
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ tools:context=".MainActivity">
+ <EditText android:id="@+id/username"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:ems="10"
+ android:hint="Enter username"
+ android:inputType="textPersonName"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent"
+ app:layout_constraintVertical_bias="0.107"/>
+ <EditText android:id="@+id/password"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:ems="10" android:hint="Enter password"
+ android:inputType="textPersonName"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="@+id/username"
+ app:layout_constraintStart_toStartOf="@+id/username"
+ app:layout_constraintTop_toBottomOf="@+id/username"
+ app:layout_constraintVertical_bias="0.079"/>
+ <Button
+ android:id="@+id/login"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:onClick="onLogin"
+ android:text="Login"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="@+id/password"
+ app:layout_constraintStart_toStartOf="@+id/password"
+ app:layout_constraintTop_toBottomOf="@+id/password"
+ app:layout_constraintVertical_bias="0.075"
+ tools:ignore="OnClick" />
+ <TextView
+ android:id="@+id/display"
+ android:layout_width="235dp"
+ android:layout_height="122dp"
+ android:textAlignment="center"
+ android:textSize="16sp"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toBottomOf="@+id/login"
+ app:layout_constraintVertical_bias="0.037"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
