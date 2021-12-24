@@ -1,47 +1,197 @@
-JAVA CODE:
-----------------------------
-import android.os.Bundle;
-import android.app.Activity;
+package com.example.week2;
+ 
+import static java.sql.Types.NULL;
+ 
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
-
-public class MainActivity extends Activity {
-Button bt;
-TextView result,tv;
-EditText name,address,dob,password;
-RadioButton b1,b2;
+import android.os.Bundle;
+ 
+import java.util.SplittableRandom;
+ 
+public class MainActivity extends AppCompatActivity {
+ 
+    private RadioGroup rg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); 
-    Button bt = (Button)findViewById(R.id.button1);
-    name = (EditText) findViewById(R.id.editText1);
-    password = (EditText) findViewById(R.id.editText2);
-    address = (EditText) findViewById(R.id.editText3);
-    dob = (EditText) findViewById(R.id.editText4);
-    result = (TextView)findViewById(R.id.textView2); 
-    b1 = (RadioButton)findViewById(R.id.radioButton1);
-    b1 = (RadioButton)findViewById(R.id.radioButton2);
-    //ini sid = 
-    
-    bt.setOnClickListener(new View.OnClickListener() {
-    public void onClick(View v) {
-    String namee = name.getText().toString();
-    String passwordd = password.getText().toString();
-    String addresss = address.getText().toString();
-    String dobb = dob.getText().toString();
-    
-    
-    if(b1!= null){
-    result.setText(" Name \t: " + namee + "\n Address \t: " + addresss + "\n password \t:" +passwordd + "\n DOB \t: " + dobb + "\n Gender \t: Male");
+        setContentView(R.layout.activity_main);
+        Button bt = (Button) findViewById(R.id.submit);
+        EditText name = (EditText) findViewById(R.id.username);
+        EditText password = (EditText) findViewById(R.id.password);
+        EditText address = (EditText) findViewById(R.id.address);
+        //RadioButton male = (RadioButton) findViewById(R.id.male);
+        //RadioButton female = (RadioButton) findViewById(R.id.female);
+        EditText dob = (EditText) findViewById(R.id.dob);
+        TextView display = (TextView) findViewById(R.id.display);
+ 
+        //int mf;
+        final String[] id = new String[1];
+        rg = (RadioGroup) findViewById(R.id.radiogroup);
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId)
+                {
+                    case R.id.male:
+                        //display.setText("Name: "+n+"\nPassword: "+p+"\nAddress: "+a+"\nGender: Male\nDOB: "+d);
+                        id[0] ="male";
+                        break;
+ 
+ 
+                    case R.id.female:
+                        //display.setText("Name: "+n+"\nPassword: "+p+"\nAddress: "+a+"\nGender: Female\nDOB: "+d);
+                        id[0]="female";
+                        break;
+                }
+            }
+        });
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String n = name.getText().toString();
+                String p = password.getText().toString();
+                String a = address.getText().toString();
+                String d = dob.getText().toString();
+                display.setText("Name: "+n+"\nPassword: "+p+"\nAddress: "+a+"\nGender:"+id[0]+"\nDOB: "+d);
+            }
+        });
+ 
     }
-    if(b2!= null){
-    result.setText(" Name : " + namee + "\n Address : " + addresss + "\n DOB : " + dobb + "\n Gender : Female"  +"\n password :" +passwordd);
-}
-    }
-    });
-    }
+ 
+    //-------------------------------------------------------------------------------------------------
+    <?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://s...content-available-to-author-only...d.com/apk/res/android"
+    xmlns:app="http://s...content-available-to-author-only...d.com/apk/res-auto"
+    xmlns:tools="http://s...content-available-to-author-only...d.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+ 
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="130dp"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+ 
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="130dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
+ 
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="130dp"
+        android:ems="10"
+        android:hint="Address"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
+ 
+ 
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="130dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address"
+        tools:ignore="MissingConstraints">
+ 
+        <RadioButton
+            android:id="@+id/male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="100dp"
+            android:text="Male"
+            app:layout_constraintEnd_toStartOf="@+id/female"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/address" />
+ 
+        <RadioButton
+            android:id="@+id/female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="50dp"
+            android:text="Female"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/male"
+            app:layout_constraintTop_toBottomOf="@+id/address" />
+ 
+    </RadioGroup>
+ 
+    <EditText
+        android:id="@+id/dob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="130dp"
+        android:ems="10"
+        android:hint="DOB"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radiogroup"
+        tools:ignore="NotSibling" />
+ 
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="192dp"
+        android:text="SUBMIT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dob" />
+ 
+    <TextView
+        android:id="@+id/display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submit" />
+ 
+</androidx.constraintlayout.widget.ConstraintLayout>
 }
